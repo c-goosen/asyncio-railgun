@@ -4,10 +4,9 @@ from typing import Optional
 
 
 class Railgun(object):
-
     """
-
-
+    RailGun Class.
+    RailGun is a library for using asyncio to execute concurrent tasks
     """
 
     def __init__(
@@ -29,7 +28,6 @@ class Railgun(object):
 
     async def run_async_job(self, task, async_semaphore):
         """
-
         :param task:
         :param async_semaphore:
         :return:
@@ -46,7 +44,6 @@ class Railgun(object):
 
     def _setup_jobs(self, *args) -> list:
         """
-
         :param args: general arguments passed to async method, func(*args, **kwargs)
         :return: list
         """
@@ -57,7 +54,6 @@ class Railgun(object):
 
     def _setup_repeat_jobs(self, func, args, repeat=0) -> list:
         """
-
         :param func:
         :param args:
         :param repeat: a count of the number of repeats from 0 to repeat
@@ -72,7 +68,6 @@ class Railgun(object):
 
     def run(self, tasks: list = []) -> list:
         """
-        
         :param tasks: tasks passed to async method, func(*args, **kwargs)
         :return: list of results
         """
@@ -88,15 +83,15 @@ class Railgun(object):
         jobs = self._setup_jobs(*tasks)
         return await asyncio.gather(*jobs)
 
-    def repeat(self, func, args, repeat: int = 0, run_async: bool = False):
+    def repeat(self, func, args, repeat: int = 0, run_async: bool = False) -> any:
         """
         Repeat same method and args multiple times. This method would be ideal for something
         like a loadtest, where multiples of the same calls are made to the same url
-        :param func: 
-        :param args: 
+        :param func: any
+        :param args: any
         :param repeat: int
         :param run_async: bool
-        :return: 
+        :return: any
         """
         jobs = self._setup_repeat_jobs(func, args, repeat)
         if run_async:

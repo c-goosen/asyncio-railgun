@@ -41,37 +41,6 @@ class BaseCommand(Command):
             sys.exit(error.returncode)
 
 
-class UploadCommand(BaseCommand):
-    """Support setup.py upload. Thanks @kennethreitz!"""
-
-    description = "Build and publish the package."
-
-    def run(self):
-        try:
-            self.status("Removing previous builds…")
-            rmtree(os.path.join(curr_dir, "dist"))
-        except OSError:
-            pass
-
-        self._run(
-            "Building Source and Wheel (universal) distribution…",
-            [sys.executable, "setup.py", "sdist", "bdist_wheel", "--universal"],
-        )
-
-        self._run(
-            "Installing Twine dependency…",
-            [sys.executable, "-m", "pip", "install", "twine"],
-        )
-
-        self._run(
-            "Uploading the package to PyPI via Twine…",
-            [sys.executable, "-m", "twine", "upload", "dist/*"],
-        )
-
-        self._run("Creating git tags…", ["git", "tag", f"v{__version__}"])
-        self._run("Pushing git tags…", ["git", "push", "--tags"])
-
-
 class ValidateCommand(BaseCommand):
     """Support setup.py validate."""
 
@@ -82,9 +51,9 @@ class ValidateCommand(BaseCommand):
             "Installing test dependencies…",
             [sys.executable, "-m", "pip", "install"] + tests_require,
         )
-        self._run("Running black…", [sys.executable, "-m", "black", "railgun"])
-        self._run("Running flake8…", [sys.executable, "-m", "flake8", "railgun"])
-        self._run("Running bandit…", [sys.executable, "-m", "bandit", "railgun"])
+        self._run("Running black…", [sys.executable, "-m", "black", "railgun/"])
+        self._run("Running flake8…", [sys.executable, "-m", "flake8", "railgun/"])
+        self._run("Running bandit…", [sys.executable, "-m", "bandit", "railgun/"])
         self._run(
             "Running pytest…",
             [
@@ -139,5 +108,5 @@ setup(
     setup_requires=["pytest-runner"],
     test_suite="tests",
     tests_require=tests_require,
-    cmdclass={"upload": UploadCommand, "validate": ValidateCommand},
+    cmdclass={"validate": ValidateCommand},
 )
