@@ -4,10 +4,8 @@ A python3.4+ asyncio library wrapper for utilzing asyncio tasks and gather(*) fu
 
 [![pypi package][pypi-image]][pypi-url]
 [![Build Status][travis-image]][travis-url]
-[![Build Status][windows-build-status]][windows-build-url]
 [![Python Version][python-version]][pypi-url]
 [![codecov][codecov-image]][codecov-url]
-[![contact][contact-image]][contact-url]
 
 
 ## Table of contents
@@ -42,14 +40,29 @@ pip3 install asyncio-railgun==0.0.1
 
 
 #### Run
+```python
+from asyncio import get_event_loop
+from railgun.railgun import Railgun
+from http import client
+
+def example_call_api(host='www.google.com', url='/'):
+    conn = client.HTTPSConnection(host, port=443, timeout=5)
+    conn.request(method='GET', url=url)
+    response = conn.getresponse()
+    return response.status
+
+rail_gun = Railgun(semaphores_count=10)
+results = rail_gun.run([example_call_api(), example_call_api()])
+print(results)
+```
 
 #### Run async
-
+TBD
 #### Repeat
-
-
+TBD
 ### Support
 ---
+TBD
 
 Contact me on christogoosen@gmail.com
 
@@ -58,7 +71,7 @@ Otherwise see the examples and log an issue.
 <!-- Markdown links -->
 [pypi-image]: https://badge.fury.io/py/asyncio-railgun.svg
 [pypi-url]: https://pypi.python.org/pypi/asyncio-railgun
-[travis-image]: https://travis-ci.org/c-goosen/asyncio-railgun.svg?branch=master
+[travis-image]: https://api.travis-ci.org/c-goosen/asyncio-railgun.svg?branch=master
 [travis-url]: https://travis-ci.org/c-goosen/asyncio-railgun
 [codecov-image]: https://codecov.io/gh/c-goosen/asyncio-railgun/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/c-goosen/asyncio-railgun
