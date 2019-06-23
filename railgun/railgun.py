@@ -1,10 +1,10 @@
 import asyncio
-import time
 from copy import deepcopy
 from typing import Optional
 
 
 class Railgun(object):
+
     """
 
 
@@ -24,12 +24,16 @@ class Railgun(object):
         self.semaphores = asyncio.Semaphore(value=semaphores_count)
         self.loop = loop
 
-    # @classmethod
     def _set_semaphores(cls):
         cls.semaphore = asyncio.BoundedSemaphore(cls.semaphores_count)
 
-    # @classmethod
     async def run_async_job(self, task, async_semaphore):
+        """
+
+        :param task:
+        :param async_semaphore:
+        :return:
+        """
         async with async_semaphore:
             try:
                 if asyncio.iscoroutine(task) or asyncio.iscoroutinefunction(task):
@@ -40,40 +44,62 @@ class Railgun(object):
                 print(e)
                 return task
 
-    # @classmethod
     def _setup_jobs(self, *args) -> list:
-        start = time.time()
-        _ = [
+        """
+
+        :param args: general arguments passed to async method, func(*args, **kwargs)
+        :return: list
+        """
+        return [
             asyncio.ensure_future(self.run_async_job(deepcopy(task), self.semaphores))
             for task in args
         ]
-        print(time.time() - start)
-        return _
 
-    def _setup_repeat_jobs(self, func, args, repeat=0):
-        start = time.time()
-        _ = [
+    def _setup_repeat_jobs(self, func, args, repeat=0) -> list:
+        """
+
+        :param func:
+        :param args:
+        :param repeat: a count of the number of repeats from 0 to repeat
+        :return: list
+        """
+        return [
             asyncio.ensure_future(
                 self.run_async_job(deepcopy(func(*args)), self.semaphores)
             )
-            for task in range(0, repeat)
+            for _ in range(0, repeat)
         ]
-        print(time.time() - start)
-        return _
 
-    # @classmethod
-    def run(self, tasks: list = []):
+    def run(self, tasks: list = []) -> list:
+        """
+        
+        :param tasks: tasks passed to async method, func(*args, **kwargs)
+        :return: list of results
+        """
         jobs = self._setup_jobs(*tasks)
         return self.loop.run_until_complete(asyncio.gather(*jobs))
 
-    # @classmethod
     async def run_async(self, tasks: list = []):
+        """
+        Run a list of tasks with an async return
+        :param tasks:
+        :return:
+        """
         jobs = self._setup_jobs(*tasks)
         return await asyncio.gather(*jobs)
 
-    def repeat(self, func, args, repeat=0, run_async=False):
+    def repeat(self, func, args, repeat: int = 0, run_async: bool = False):
+        """
+        Repeat same method and args multiple times. This method would be ideal for something
+        like a loadtest, where multiples of the same calls are made to the same url
+        :param func: 
+        :param args: 
+        :param repeat: int
+        :param run_async: bool
+        :return: 
+        """
         jobs = self._setup_repeat_jobs(func, args, repeat)
         if run_async:
-            asyncio.gather(*jobs)
+            return asyncio.gather(*jobs)
         else:
             return self.loop.run_until_complete(asyncio.gather(*jobs))
