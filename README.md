@@ -79,3 +79,4 @@ Otherwise see the examples and log an issue.
 [pipenv]: https://pypi.org/project/pipenv/
 [gh-issues]: https://github.com/c-goosen/asyncio-railgun/issues
 [aiohttp]: https://aiohttp.readthedocs.io/
+[python-version]: https://img.shields.io/pypi/pyversions/asyncio-railgun.svg
