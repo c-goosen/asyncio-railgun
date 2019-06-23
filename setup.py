@@ -102,7 +102,7 @@ setup(
     version=__version__,
     description="Library for easier asyncio concurrent tasks.",
     long_description=long_description,
-    # url="https://github.com/c-goosen/asyncio-railgun",
+    url="https://github.com/c-goosen/asyncio-railgun",
     author="Christo Goosen",
     author_email="christogoosen@gmail.com",
     python_requires=">=3.6.0",
