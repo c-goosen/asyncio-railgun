@@ -53,7 +53,7 @@ class ValidateCommand(BaseCommand):
         )
         self._run("Running black…", [sys.executable, "-m", "black", "railgun/"])
         self._run("Running flake8…", [sys.executable, "-m", "flake8", "railgun/"])
-        self._run("Running bandit…", [sys.executable, "-m", "bandit", "railgun/"])
+        self._run("Running bandit…", [sys.executable, "-m", "bandit", "-r", "railgun/"])
         self._run(
             "Running pytest…",
             [
