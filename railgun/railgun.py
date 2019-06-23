@@ -1,7 +1,8 @@
 import asyncio
-from typing import Optional
-from copy import deepcopy
 import time
+from copy import deepcopy
+from typing import Optional
+
 
 class Railgun(object):
     """
@@ -52,7 +53,9 @@ class Railgun(object):
     def _setup_repeat_jobs(self, func, args, repeat=0):
         start = time.time()
         _ = [
-            asyncio.ensure_future(self.run_async_job(deepcopy(func(*args)), self.semaphores))
+            asyncio.ensure_future(
+                self.run_async_job(deepcopy(func(*args)), self.semaphores)
+            )
             for task in range(0, repeat)
         ]
         print(time.time() - start)

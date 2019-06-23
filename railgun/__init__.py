@@ -1,2 +1,2 @@
 #
-from railgun.railgun import Railgun
+__version__ = "0.0.1"

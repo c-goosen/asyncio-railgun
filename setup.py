@@ -49,7 +49,7 @@ class UploadCommand(BaseCommand):
     def run(self):
         try:
             self.status("Removing previous builds…")
-            rmtree(os.path.join(here, "dist"))
+            rmtree(os.path.join(curr_dir, "dist"))
         except OSError:
             pass
 
@@ -82,9 +82,9 @@ class ValidateCommand(BaseCommand):
             "Installing test dependencies…",
             [sys.executable, "-m", "pip", "install"] + tests_require,
         )
-        self._run("Running black…", [sys.executable, "-m", "black"])
-        self._run("Running flake8…", [sys.executable, "-m", "flake8",])
-        self._run("Running bandit…", [sys.executable, "-m", "bandit",])
+        self._run("Running black…", [sys.executable, "-m", "black", "railgun"])
+        self._run("Running flake8…", [sys.executable, "-m", "flake8", "railgun"])
+        self._run("Running bandit…", [sys.executable, "-m", "bandit", "railgun"])
         self._run(
             "Running pytest…",
             [
