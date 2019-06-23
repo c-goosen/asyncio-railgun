@@ -6,7 +6,7 @@ from shutil import rmtree
 from setuptools import setup, find_packages, Command
 import codecs
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 curr_dir = os.path.abspath(os.path.dirname(__file__))
 
