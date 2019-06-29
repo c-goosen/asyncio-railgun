@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from setuptools import setup, find_packages, Command
+from setuptools import setup, find_packages
 import codecs
 
 __version__ = '0.0.3'

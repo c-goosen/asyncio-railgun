@@ -23,8 +23,8 @@ class Railgun(object):
         self.semaphores = asyncio.Semaphore(value=semaphores_count)
         self.loop = loop
 
-    def _set_semaphores(cls):
-        cls.semaphore = asyncio.BoundedSemaphore(cls.semaphores_count)
+    def _set_semaphores(self):
+        self.semaphore = asyncio.BoundedSemaphore(self.semaphores_count)
 
     async def run_async_job(self, task, async_semaphore):
         """
@@ -66,7 +66,7 @@ class Railgun(object):
             for _ in range(0, repeat)
         ]
 
-    def run(self, tasks: list = []) -> list:
+    def run(self, tasks: list) -> list:
         """
         :param tasks: tasks passed to async method, func(*args, **kwargs)
         :return: list of results
@@ -74,7 +74,7 @@ class Railgun(object):
         jobs = self._setup_jobs(*tasks)
         return self.loop.run_until_complete(asyncio.gather(*jobs))
 
-    async def run_async(self, tasks: list = []):
+    async def run_async(self, tasks: list):
         """
         Run a list of tasks with an async return
         :param tasks:
