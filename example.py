@@ -50,25 +50,10 @@ start = time.time()
 #     async_tasks_1.append(call_web_async())
 #     async_tasks_2.append(call_web_async())
 print(f'after for loop: {time.time() - start}')
-# async_test_1 = loop.run_until_complete(rail_gun.run_async(async_tasks_1))
-# async_test_2 = rail_gun.run(async_tasks_2)
 
-# async_tasks_3 = [random_task_async(1,3), random_task_async(4,2), random_task_async(1,1)] * 100
-# async_tasks_3 = async_tasks_3 + [random_task_async(2,6), random_task_async(2,2)]
-
-# async_tasks_3 = list(shuffle(async_tasks_3))
-# async_test_3 = rail_gun.run(async_tasks_3)
 
 async_test_3 = rail_gun.repeat(random_task, [12, 0.01], 200)
 print(async_test_3)
 print(len(async_test_3))
 
 start = time.time()
-# print(async_test_1)
-# print(time.time() - start)
-# print('\n\n')
-# start = time.time()
-# print(async_test_2)
-# print(time.time() - start)
-# for x in async_test:
-#     print(loop.run_until_complete(x))
