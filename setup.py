@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import subprocess
-import sys
 from setuptools import setup, find_packages, Command
 import codecs
 
@@ -14,56 +12,6 @@ with codecs.open(os.path.join(curr_dir, "README.md"), encoding="utf-8") as readm
     long_description = readme.read()
 
 tests_require = ["pytest", "pytest-cov", "codecov", "flake8", "black", "bandit"]
-
-
-class BaseCommand(Command):
-    """Base Command"""
-
-    user_options = []
-
-    @staticmethod
-    def status(s):
-        """Prints things in bold."""
-        print("\033[1m{0}\033[0m".format(s))
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def _run(self, s, command):
-        try:
-            self.status(s + "\n" + " ".join(command))
-            subprocess.check_call(command)
-        except subprocess.CalledProcessError as error:
-            sys.exit(error.returncode)
-
-
-class ValidateCommand(BaseCommand):
-    """Support setup.py validate."""
-
-    description = "Run Python static code analyzer (flake8), formatter (black) and unit tests (pytest)."
-
-    def run(self):
-        self._run(
-            "Installing test dependencies…",
-            [sys.executable, "-m", "pip", "install"] + tests_require,
-        )
-        self._run("Running black…", [sys.executable, "-m", "black", "railgun/"])
-        self._run("Running flake8…", [sys.executable, "-m", "flake8", "railgun/"])
-        self._run("Running bandit…", [sys.executable, "-m", "bandit", "-r", "railgun/"])
-        self._run(
-            "Running pytest…",
-            [
-                sys.executable,
-                "-m",
-                "pytest",
-                "--cov-report=xml",
-                "tests/",
-            ],
-        )
-
 
 setup(
     name="asyncio-railgun",
@@ -102,10 +50,8 @@ setup(
     packages=find_packages(
         exclude=["docs", "docs-src", "tests", "tests.*", "tutorial"]
     ),
-    # install_requires=["aiohttp>3.5.2"],
-    # extras_require={"optional": ["aiodns>1.0"]},
     setup_requires=["pytest-runner"],
     test_suite="tests",
     tests_require=tests_require,
-    cmdclass={"validate": ValidateCommand},
+    # cmdclass={"validate": ValidateCommand},
 )
